@@ -1,0 +1,129 @@
+html {
+    overflow-y: auto;
+}
+
+html {
+    font-family: Luxi-Sans, Garet-Book;
+}
+
+nav.primary,
+button {
+    font-family: Luxi-Serif, Garet-Book;
+}
+
+/* 50/50 split homepage layout */
+.slug-home {
+    overflow: hidden;
+}
+.slug-home .lay-content {
+  display: flex;
+  height: 100vh;
+}
+.slug-home .lay-content #grid,
+.slug-home .lay-content #footer-region {
+    overflow-y: scroll;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    transition: all 200ms;
+}
+.slug-home .lay-content #grid.is-expanded {
+    width: 100%;
+    z-index: 1;
+}
+.slug-home #footer-region {
+    background: black;
+    left: 50%;
+}
+.slug-home #footer-region.is-expanded {
+    left: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+/* Project title only visible on hover */
+.thumb .lay-textformat-parent.below-image {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    background: whitesmoke;
+}
+.thumb:hover .lay-textformat-parent.below-image {
+    display: block;
+}
+
+/* Why? */
+@media (min-width: 601px) {
+    .navbar {
+        background: none;
+        width: auto;
+    }
+    nav.primary {
+        width: 0;
+        top: 0;
+        bottom: 0;
+    }
+}
+
+/* More stuff */
+
+
+nav.primary .menu-item-home a,
+nav.primary .menu-item-home a:hover,
+nav.laynav .menu-item-home.current-menu-item>a {
+    display: block;
+    background: #be4929;
+    color: #f1d94a;
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    text-transform: uppercase;
+}
+
+.menu-item-home {
+    position: fixed;
+    top: 2rem;
+    transform: translateX(-50%);
+}
+
+/* Panel menu for the splitscreen on homepage */
+.PanelMenu {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+.slug-home .PanelMenu {
+    display: block;
+}
+.PanelMenu button {
+    width: 6rem;
+    text-align: center;
+    text-decoration: none;
+    border: 0;
+    background: none;
+    padding: 0.2em 0.2em 0.1em;
+    font-size: 20px;
+    
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    transition: transform 150ms, top 150ms;
+    transform-origin: 0%;
+}
+.PanelMenu button[left] {
+    background: black;
+    color: white !important;
+    transform: translate3d(-100%, 200%, 0);
+}
+.PanelMenu button[right] {
+    background: white;
+    color: black !important;
+    transform: translate3d(0, 0, 0);
+}

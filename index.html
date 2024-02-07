@@ -1,0 +1,44 @@
+<!--<script src="https://cdn.jsdelivr.net/npm/htmx.org"></script>-->
+
+<menu class="PanelMenu">
+    <button left>Styling</button>
+    <button right>Set</button>
+</menu>
+
+<script>
+window.laytheme.on("newpageshown", function() {
+    fancyHomepage()
+})
+
+jQuery(document).on("click", ".PanelMenu button[left]", function(event) {
+    event.preventDefault()
+    event.stopPropagation();
+    document.querySelector('.slug-home .lay-content #grid').classList.toggle('is-expanded') 
+})
+jQuery(document).on("click", ".PanelMenu button[right]", function(event) {
+    event.preventDefault()
+    event.stopPropagation();
+    document.querySelector('.slug-home .lay-content #footer-region').classList.toggle('is-expanded') 
+})
+
+function fancyHomepage() {
+    const div1 = document.querySelector('.slug-home .lay-content #grid')
+    const div2 = document.querySelector('.slug-home .lay-content #footer-region')
+    if (!div1 || !div2) return
+    const menuStyling = document.querySelector('.PanelMenu button[left]')
+    const menuSet = document.querySelector('.PanelMenu button[right]')
+    var max = 200 // percent
+    div1.onscroll = () => {
+        const maxScroll = div1.scrollHeight - div1.clientHeight
+        const scrollPercentage = div1.scrollTop / maxScroll
+        menuStyling.style.transform = `translate3d(-100%, ${max - max * scrollPercentage}%, 0)`
+        menuSet.style.transform = `translate3d(0, ${max * scrollPercentage}%, 0)`
+    }
+    div2.onscroll = () => {
+        const maxScroll = div2.scrollHeight - div2.clientHeight
+        const scrollPercentage = div2.scrollTop / maxScroll
+        menuStyling.style.transform = `translate3d(-100%, ${max * scrollPercentage}%, 0)`
+        menuSet.style.transform = `translate3d(0, ${max - max * scrollPercentage}%, 0)`
+    }
+}
+</script>
