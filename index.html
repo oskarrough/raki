@@ -67,3 +67,43 @@ function fancyHomepage() {
     }
 }
 </script>
+
+<script>
+customElements.define('vertical-marquee', class VerticalMarquee extends HTMLElement {	
+	connectedCallback() {
+		const p = this.querySelector('p')
+		
+		// Set a fixed height
+		this.size = 16//Number(getComputedStyle(wrapper).fontSize.match(/\d+/))
+		console.log(p, p.offsetHeight)
+		if (p.offsetHeight) {
+		    this.style.height = p.offsetHeight / 16 + 'em'
+		}
+		
+// 		debugger
+		
+		// Duplicate the <p> and wrap both in .wrapper
+		const clone = p.cloneNode(true)
+		const wrapper = document.createElement('div')
+		wrapper.appendChild(p)
+		wrapper.appendChild(clone)
+		this.appendChild(wrapper)
+// 		this.animateDivs()
+	}
+
+	animateDivs() {
+		const div = this.children[0]
+		const halfHeight = div.offsetHeight / 2 // height of one <p>
+		const animationTime = halfHeight * this.size // why 20?
+		console.log({size: this.size, halfHeight, animationTime})
+		div.animate([
+			{ transform: `translateY(${halfHeight / this.size * -1}em)` }
+		], {
+			duration: animationTime,
+			iterations: Infinity,
+			easing: 'linear',
+			fill: 'forwards' // Keep the final state after the animation
+		})
+	}
+})
+</script>
