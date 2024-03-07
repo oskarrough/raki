@@ -7,6 +7,26 @@
     --ttf-5: cubic-bezier(0.165, 0.84, 0.4, 1);
     --ttf-6: cubic-bezier(0.6, 0.07, 0.17, 1);
 }
+.lay-thumbnailgrid-filter {
+	font-size: 20px;
+}
+.lay-thumbnailgrid-filter-anchor {
+	opacity: 1;
+}
+.lay-thumbnailgrid-filter-anchor:hover {
+	opacity: 1;
+}
+.lay-thumbnailgrid-filter-anchor.lay-filter-active {
+	color: #4A0B3C;
+	border-bottom: 1px solid #4a0b3c;
+}
+
+.lay-filter-visible:nth-child(1) {font-family: Garet-Heavy; }
+.lay-filter-visible:nth-child(2) {font-size: 29px; letter-spacing: 0.05em;}
+.lay-filter-visible:nth-child(3) {font-family: Catchye; font-weight: bold; font-size: 32px;}
+.lay-filter-visible:nth-child(4) {font-family: Garet-Book; letter-spacing: -0.04em; }
+.lay-filter-visible:nth-child(7) {font-family: Garet-Heavy; text-transform: uppercase; }
+.lay-filter-visible:nth-child(8) {font-family: Garet-Book; letter-spacing: -0.04em;}
 
 html {
     overflow-y: auto;
@@ -19,14 +39,6 @@ html {
 nav.primary,
 button {
     font-family: Luxi-Serif, Garet-Book;
-}
-
-.DynaFilter {}
-.DynaFilter button {
-    
-}
-.DynaFilter button[selected] {
-    color: red;
 }
 
 /* 50/50 split homepage layout */
@@ -186,5 +198,5 @@ nav.laynav .menu-item-home.current-menu-item>a {
 [direction=left] .PanelMenu button[right] { display: none;}
 [direction=right] .PanelMenu button[left] { display: none;}
 
-[direction=left] .PanelMenu button { left: 100%;}
-[direction=right] .PanelMenu button { left: 2rem;}
+[direction=left] .PanelMenu button { left: 2rem;}
+[direction=right] .PanelMenu button { left: calc(100% - 2rem);}

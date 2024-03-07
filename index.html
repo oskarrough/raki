@@ -1,61 +1,48 @@
-<!--<script src="https://cdn.jsdelivr.net/npm/htmx.org"></script>-->
-
-<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-<script>
-var buttons = jQuery('.DynaFilter')
-jQuery(document).on("click", ".DynaFilter button", function(event) {
-  const categoryId = event.target.dataset.id 
-  const btns = document.querySelectorAll('.DynaFilter button[selected]')
-  for (btn of btns) {
-      btn.removeAttribute('selected')
-  }
-  this.setAttribute('selected', true)
-  
-  var items = jQuery(this).parents('.grid').find('[data-catid]')
-  console.log('clicked', this, categoryId, this.dataset.slug, items)
-  items.filter((index, item) => {
-      // each item has <div data-catid="[7,5]">
-      let matches = item.dataset.catid.includes(categoryId)
-      let parent = jQuery(item).parents('.element-wrap')
-      console.log(item.dataset.catid, {matches, parent})
-      parent.toggle(matches)
-  })
-  jQuery('.elements-collection-region.masonry').masonry()
-})
-</script>
-
 <menu class="PanelMenu">
-    <button left>Styling</button>
-    <button right>Set & Props</button>
+    <button right>Styling</button>
+    <button left>Set & Props</button>
 </menu>
 
 <script>
+const body = jQuery('body')
+
 window.laytheme.on("newpageshown", function() {
     if (document.body.classList.contains('slug-home')) fancyHomepage()
 })
 
-const body = jQuery('body')
-
-jQuery(document).on("click", ".PanelMenu button[left]", function(event) {
-    event.preventDefault()
-    jQuery('.slug-home .lay-content #grid').toggleClass('is-expanded')
-    if (body.attr('direction') === 'left') {
-        body.removeAttr('direction')
-    } else {
-        body.attr('direction', 'left')
-    }
-    setTimeout(() => jQuery('.elements-collection-region.masonry').masonry(), 416)
-})
 jQuery(document).on("click", ".PanelMenu button[right]", function(event) {
     event.preventDefault()
-    document.querySelector('.slug-home .lay-content #footer-region').classList.toggle('is-expanded')
+    jQuery('.slug-home .lay-content #grid').toggleClass('is-expanded')
     if (body.attr('direction') === 'right') {
         body.removeAttr('direction')
     } else {
         body.attr('direction', 'right')
     }
-    setTimeout(() => jQuery('.elements-collection-region.masonry').masonry(), 416)
+    setTimeout(() => jQuery('.layout-type-masonry').masonry(), 416)
 })
+jQuery(document).on("click", ".PanelMenu button[left]", function(event) {
+    event.preventDefault()
+    document.querySelector('.slug-home .lay-content #footer-region').classList.toggle('is-expanded')
+    if (body.attr('direction') === 'left') {
+        body.removeAttr('direction')
+    } else {
+        body.attr('direction', 'left')
+    }
+    setTimeout(() => jQuery('.layout-type-masonry').masonry(), 416)
+})
+
+jQuery(document).on('click', '.menu-item-home a', function(event) {
+    console.log('triggering "all" filter')
+    jQuery('.lay-thumbnailgrid-filter-anchor:first-of-type').click()
+})
+
+jQuery(document).on('click', '.lay-thumbnailgrid-filter-anchor', function(event) {
+   console.log('refreshing masonry')
+   setTimeout(() => jQuery('.layout-type-masonry').masonry(), 500)
+   jQuery(window).trigger('scroll');
+})
+
+
 
 function fancyHomepage() {
     const leftContainer = document.querySelector('.slug-home .lay-content #grid')
