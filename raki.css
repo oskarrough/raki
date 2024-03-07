@@ -1,0 +1,190 @@
+:root {
+    --bounce: cubic-bezier(0.34, 1.8, 0.64, 1);
+    --ttf: cubic-bezier(0.19,1,.22,1);
+    --ttf-2: cubic-bezier(0.075, 0.820, 0.165, 1.000);
+    --ttf-3: cubic-bezier(0.64, 0, 0.78, 0);
+    --ttf-4: cubic-bezier(0.8, 0, 0.2, 1);
+    --ttf-5: cubic-bezier(0.165, 0.84, 0.4, 1);
+    --ttf-6: cubic-bezier(0.6, 0.07, 0.17, 1);
+}
+
+html {
+    overflow-y: auto;
+}
+
+html {
+    font-family: Luxi-Sans, Garet-Book;
+}
+
+nav.primary,
+button {
+    font-family: Luxi-Serif, Garet-Book;
+}
+
+.DynaFilter {}
+.DynaFilter button {
+    
+}
+.DynaFilter button[selected] {
+    color: red;
+}
+
+/* 50/50 split homepage layout */
+.slug-home {
+    overflow: hidden;
+}
+.slug-home .lay-content {
+  display: flex;
+  height: 100vh;
+}
+.slug-home .lay-content #grid,
+.slug-home .lay-content #footer-region {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    transition: all 400ms var(--ttf);
+    
+    overflow-y: scroll;
+    overscroll-behavior: contain;
+    scrollbar-color: black white;
+    scrollbar-width: thin;
+}
+
+.slug-home .lay-content #grid.is-expanded {
+    width: 100%;
+    z-index: 1;
+}
+.slug-home #footer-region {
+    background: black;
+    left: 50%;
+    scrollbar-color: white black;
+    scrollbar-color: hotpink blue;
+}
+.slug-home #footer-region.is-expanded {
+    left: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+
+/* Project title only visible on hover */
+.thumb .lay-textformat-parent.below-image {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /*display: none;*/
+    opacity: 0;
+    background: black;
+    transition: opacity 60ms var(--easing);
+}
+.thumb .lay-textformat-parent.below-image .title {
+    color: whitesmoke;
+}
+.lay-content #footer-region .thumb .lay-textformat-parent.below-image {
+    background: whitesmoke;
+}
+.lay-content #footer-region .thumb .lay-textformat-parent.below-image .title {
+    color: black;
+}
+.thumb:hover .lay-textformat-parent.below-image {
+    display: block;
+    opacity: 1;
+}
+.thumb .below-image .title {
+    margin: 2px 6px 2px;
+    font-size: 14px;
+}
+
+/* Why? */
+@media (min-width: 601px) {
+    .navbar {
+        background: none;
+        width: auto;
+    }
+    nav.primary {
+        width: 0;
+        top: 0;
+        bottom: 0;
+    }
+    .PanelMenu {
+        display: none;
+    }
+}
+
+/* More stuff */
+
+
+nav.primary .menu-item-home a,
+nav.primary .menu-item-home a:hover,
+nav.laynav .menu-item-home.current-menu-item>a {
+    display: block;
+    background: #be4929;
+    color: #f1d94a;
+    background: #4A0B3C;
+    color: #D45252;
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    text-transform: uppercase;
+}
+
+.menu-item-home {
+    position: fixed;
+    bottom: 3rem;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+/* Panel menu for the splitscreen on homepage */
+.PanelMenu {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+}
+.slug-home .PanelMenu {
+    display: block;
+}
+.PanelMenu button {
+    text-align: center;
+    text-decoration: none;
+    border: 0;
+    background: none;
+    padding: 0.2em 0.2em 0.1em;
+    font-size: 20px;
+    position: fixed;
+    left: 50%;
+    top: 0;
+    z-index: 100;
+    transition: all 400ms var(--ttf);
+    white-space: nowrap;
+    writing-mode: vertical-lr;
+	min-height: 6em;
+	transform-origin: left;
+}
+
+.PanelMenu button[left] {
+    background: black;
+    color: white !important;
+    /*transform: translate3d(-100%, 0%, 0);*/
+    transform: rotate(180deg) translate3d(0%, 0%, 0);
+	top: 10%;
+}
+.PanelMenu button[right] {
+    background: white;
+    color: black !important;
+    /*transform: rotate(90deg) translate3d(0%, -50%, 0);*/
+    transform: translate3d(0%, 0%, 0);
+	top: 70%;
+}
+
+[direction=left] .PanelMenu button[right] { display: none;}
+[direction=right] .PanelMenu button[left] { display: none;}
+
+[direction=left] .PanelMenu button { left: 100%;}
+[direction=right] .PanelMenu button { left: 2rem;}

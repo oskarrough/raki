@@ -1,44 +1,82 @@
 <!--<script src="https://cdn.jsdelivr.net/npm/htmx.org"></script>-->
 
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<script>
+var buttons = jQuery('.DynaFilter')
+jQuery(document).on("click", ".DynaFilter button", function(event) {
+  const categoryId = event.target.dataset.id 
+  const btns = document.querySelectorAll('.DynaFilter button[selected]')
+  for (btn of btns) {
+      btn.removeAttribute('selected')
+  }
+  this.setAttribute('selected', true)
+  
+  var items = jQuery(this).parents('.grid').find('[data-catid]')
+  console.log('clicked', this, categoryId, this.dataset.slug, items)
+  items.filter((index, item) => {
+      // each item has <div data-catid="[7,5]">
+      let matches = item.dataset.catid.includes(categoryId)
+      let parent = jQuery(item).parents('.element-wrap')
+      console.log(item.dataset.catid, {matches, parent})
+      parent.toggle(matches)
+  })
+  jQuery('.elements-collection-region.masonry').masonry()
+})
+</script>
+
 <menu class="PanelMenu">
     <button left>Styling</button>
-    <button right>Set</button>
+    <button right>Set & Props</button>
 </menu>
 
 <script>
 window.laytheme.on("newpageshown", function() {
-    fancyHomepage()
+    if (document.body.classList.contains('slug-home')) fancyHomepage()
 })
+
+const body = jQuery('body')
 
 jQuery(document).on("click", ".PanelMenu button[left]", function(event) {
     event.preventDefault()
-    event.stopPropagation();
-    document.querySelector('.slug-home .lay-content #grid').classList.toggle('is-expanded') 
+    jQuery('.slug-home .lay-content #grid').toggleClass('is-expanded')
+    if (body.attr('direction') === 'left') {
+        body.removeAttr('direction')
+    } else {
+        body.attr('direction', 'left')
+    }
+    setTimeout(() => jQuery('.elements-collection-region.masonry').masonry(), 416)
 })
 jQuery(document).on("click", ".PanelMenu button[right]", function(event) {
     event.preventDefault()
-    event.stopPropagation();
-    document.querySelector('.slug-home .lay-content #footer-region').classList.toggle('is-expanded') 
+    document.querySelector('.slug-home .lay-content #footer-region').classList.toggle('is-expanded')
+    if (body.attr('direction') === 'right') {
+        body.removeAttr('direction')
+    } else {
+        body.attr('direction', 'right')
+    }
+    setTimeout(() => jQuery('.elements-collection-region.masonry').masonry(), 416)
 })
 
 function fancyHomepage() {
-    const div1 = document.querySelector('.slug-home .lay-content #grid')
-    const div2 = document.querySelector('.slug-home .lay-content #footer-region')
-    if (!div1 || !div2) return
-    const menuStyling = document.querySelector('.PanelMenu button[left]')
-    const menuSet = document.querySelector('.PanelMenu button[right]')
-    var max = 200 // percent
-    div1.onscroll = () => {
-        const maxScroll = div1.scrollHeight - div1.clientHeight
-        const scrollPercentage = div1.scrollTop / maxScroll
-        menuStyling.style.transform = `translate3d(-100%, ${max - max * scrollPercentage}%, 0)`
-        menuSet.style.transform = `translate3d(0, ${max * scrollPercentage}%, 0)`
+    const leftContainer = document.querySelector('.slug-home .lay-content #grid')
+    const rightContainer = document.querySelector('.slug-home .lay-content #footer-region')
+    const leftBtn = document.querySelector('.PanelMenu button[left]')
+    const rightBtn = document.querySelector('.PanelMenu button[right]')
+    
+    // Function to map scroll percentage to label top value
+    const mapScrollToTopValue = (scrollPercentage) => {
+      // Map from 0-100% scroll to 10-90% top value
+      return 10 + (70 * scrollPercentage);
     }
-    div2.onscroll = () => {
-        const maxScroll = div2.scrollHeight - div2.clientHeight
-        const scrollPercentage = div2.scrollTop / maxScroll
-        menuStyling.style.transform = `translate3d(-100%, ${max * scrollPercentage}%, 0)`
-        menuSet.style.transform = `translate3d(0, ${max - max * scrollPercentage}%, 0)`
+
+    leftContainer.onscroll = (event) => doit(event.target)
+   	rightContainer.onscroll = (event) => doit(event.target)
+
+    function doit(container) {
+    	const maxScroll = container.scrollHeight - container.clientHeight
+      const percentage = container.scrollTop / maxScroll
+    	leftBtn.style.top = `${mapScrollToTopValue(percentage)}%`
+    	rightBtn.style.top = `${mapScrollToTopValue(1 - percentage)}%`
     }
 }
 </script>
